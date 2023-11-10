@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from "express";
+import { UploadedFile } from "express-fileupload";
+import { userPresenter } from "../presenters/user.presenter";
 
 import { userService } from "../services/user.services";
 import { ITokenPayload } from "../types/token.types";
@@ -72,6 +74,24 @@ class UserController {
       const user = await userService.getMe(userId);
 
       res.json(user);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async uploadAvatar(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response<IUser>> {
+    try {
+      const { userId } = req.params;
+      const avatar = req.files.avatar as UploadedFile;
+      const user = await userService.uploadAvatar(avatar, userId);
+
+      const response = userPresenter.present(user);
+
+      return res.json(response);
     } catch (e) {
       next(e);
     }

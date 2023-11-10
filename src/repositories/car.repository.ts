@@ -5,7 +5,7 @@ import { ICar } from "../types/cars.types";
 
 class CarRepository {
   public async getAll(): Promise<ICar[]> {
-    const cars = await Car.find();
+    const cars = await Car.find().populate("_userId");
     return cars;
   }
 
@@ -17,8 +17,8 @@ class CarRepository {
     return await Car.findById(id);
   }
 
-  public async createCar(dto: ICar): Promise<ICar> {
-    return await Car.create(dto);
+  public async createCar(dto: ICar, userId: string): Promise<ICar> {
+    return await Car.create({ ...dto, _userId: userId });
   }
 
   public async updateCar(carId: string, dto: Partial<ICar>): Promise<ICar> {

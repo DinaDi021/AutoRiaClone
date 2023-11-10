@@ -7,6 +7,8 @@ export interface ICar extends Document {
   brand: EBrand;
   carModel: string;
   year: number;
-  price: EPrice;
+  price: number;
+  currency: EPrice;
   description: string;
+  avatar: string;
 }

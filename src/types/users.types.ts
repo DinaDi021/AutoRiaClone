@@ -11,6 +11,8 @@ export interface IUser extends Document {
   password: string;
   status: EUserStatus;
   roles: ERoles;
+  isBlocked: boolean;
+  avatar: string;
 }
 
 export type IUserCredentials = Pick<IUser, "email" | "password">;

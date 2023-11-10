@@ -39,6 +39,14 @@ const userSchema = new Schema(
       enum: ERoles,
       required: true,
     },
+    avatar: {
+      type: String,
+    },
+    isBlocked: {
+      type: Boolean,
+      require: true,
+      default: false,
+    },
   },
   {
     timestamps: true,
