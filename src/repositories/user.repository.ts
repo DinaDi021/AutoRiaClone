@@ -40,36 +40,45 @@ class UserRepository {
   public async deleteUser(userId: string): Promise<void> {
     await User.deleteOne({ _id: userId });
   }
-  public async findWithoutActivityAfterDate(date: string): Promise<IUser[]> {
-    return await User.aggregate([
-      {
-        $lookup: {
-          from: "tokens",
-          localField: "_id",
-          foreignField: "_userId",
-          as: "tokens",
-        },
-      },
-      {
-        $match: {
-          tokens: {
-            $not: {
-              $elemMatch: {
-                createdAt: { $gte: date },
-              },
-            },
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          name: 1,
-          email: 1,
-        },
-      },
-    ]);
+
+  public async blockUser(userId: string): Promise<void> {
+    await User.updateOne({ _id: userId }, { $set: { isBlocked: true } });
   }
+
+  public async unblockUser(userId: string): Promise<void> {
+    await User.updateOne({ _id: userId }, { $set: { isBlocked: false } });
+  }
+
+  // public async findWithoutActivityAfterDate(date: string): Promise<IUser[]> {
+  //   return await User.aggregate([
+  //     {
+  //       $lookup: {
+  //         from: "tokens",
+  //         localField: "_id",
+  //         foreignField: "_userId",
+  //         as: "tokens",
+  //       },
+  //     },
+  //     {
+  //       $match: {
+  //         tokens: {
+  //           $not: {
+  //             $elemMatch: {
+  //               createdAt: { $gte: date },
+  //             },
+  //           },
+  //         },
+  //       },
+  //     },
+  //     {
+  //       $project: {
+  //         _id: 1,
+  //         name: 1,
+  //         email: 1,
+  //       },
+  //     },
+  //   ]);
+  // }
 }
 
 export const userRepository = new UserRepository();

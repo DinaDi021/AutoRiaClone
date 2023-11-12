@@ -5,6 +5,7 @@ import { authMiddleware } from "../middlewares/auth.middleware";
 import { carMiddleware } from "../middlewares/car.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
 import { fileMiddleware } from "../middlewares/files.middleware";
+import { userMiddleware } from "../middlewares/user.middleware";
 import { CarValidator } from "../validators/car.validator";
 
 const router = Router();
@@ -13,6 +14,8 @@ router.get("/", carController.getAll);
 router.post(
   "/",
   authMiddleware.checkAccessToken,
+  userMiddleware.checkAccountType,
+  userMiddleware.checkRole(["Admin", "Manager", "Seller"]),
   commonMiddleware.isBodyValid(CarValidator.create),
   carController.createCar,
 );
@@ -34,6 +37,7 @@ router.put(
 router.post(
   "/:carId/gallery",
   authMiddleware.checkAccessToken,
+  commonMiddleware.isIdValid("carId"),
   fileMiddleware.isAvatarValid,
   carController.uploadAvatar,
 );

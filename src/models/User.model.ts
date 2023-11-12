@@ -14,8 +14,8 @@ const userSchema = new Schema(
     },
     age: {
       type: Number,
-      min: [1, "Minimum age is 1"],
-      max: [199, "Maximum age is 199"],
+      min: [18, "Minimum age is 18"],
+      max: [100, "Maximum age is 100"],
     },
     status: {
       type: String,
@@ -42,6 +42,11 @@ const userSchema = new Schema(
     avatar: {
       type: String,
     },
+    isAccountPremium: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     isBlocked: {
       type: Boolean,
       require: true,
@@ -53,14 +58,5 @@ const userSchema = new Schema(
     versionKey: false,
   },
 );
-
-userSchema.pre("save", function (next) {
-  if (this.roles !== ERoles.Buyer && this.roles !== ERoles.Seller) {
-    const error = new Error("Only Buyers and Sellers are allowed to register.");
-    next(error);
-  } else {
-    next();
-  }
-});
 
 export const User = model<IUser>("user", userSchema);

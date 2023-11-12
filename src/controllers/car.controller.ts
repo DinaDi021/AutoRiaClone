@@ -42,9 +42,9 @@ class CarController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const { userId } = req.res.locals.tokenPayload as ITokenPayload;
+      const { userId, roles } = req.res.locals.tokenPayload as ITokenPayload;
 
-      await carService.deleteCar(req.params.carId, userId);
+      await carService.deleteCar(req.params.carId, userId, roles);
 
       res.sendStatus(204);
     } catch (e) {
@@ -58,12 +58,13 @@ class CarController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const { userId } = req.res.locals.tokenPayload as ITokenPayload;
+      const { userId, roles } = req.res.locals.tokenPayload as ITokenPayload;
 
       const car = await carService.updateCar(
         req.params.carId,
         req.body,
         userId,
+        roles,
       );
 
       res.status(201).json(car);
@@ -88,9 +89,14 @@ class CarController {
     next: NextFunction,
   ): Promise<Response<IUser>> {
     try {
-      const { carId } = req.params;
+      const { userId, roles } = req.res.locals.tokenPayload as ITokenPayload;
       const avatar = req.files.avatar as UploadedFile;
-      const car = await carService.uploadAvatar(avatar, carId);
+      const car = await carService.uploadAvatar(
+        req.params.carId,
+        avatar,
+        userId,
+        roles,
+      );
 
       const response = carPresenter.present(car);
 

@@ -16,7 +16,7 @@ class UserService {
     userId: string,
     roles: string,
   ): Promise<IUser> {
-    this.checkAbilityToManage(roles, userId, manageUserId);
+    this.checkUpdatePermission(userId, manageUserId, roles);
     return await userRepository.updateOneById(manageUserId, dto);
   }
 
@@ -25,8 +25,8 @@ class UserService {
     userId: string,
     roles: string,
   ): Promise<void> {
-    this.checkAbilityToManage(roles, userId, manageUserId);
-    await userRepository.deleteUser(userId);
+    this.checkUpdatePermission(userId, manageUserId, roles);
+    await userRepository.deleteUser(manageUserId);
   }
 
   public async getMe(userId: string): Promise<IUser> {
@@ -34,38 +34,69 @@ class UserService {
   }
 
   public async uploadAvatar(
+    manageUserId: string,
     avatar: UploadedFile,
     userId: string,
+    roles: string,
   ): Promise<IUser> {
-    const user = await userRepository.findById(userId);
-
-    if (user.avatar) {
-      await s3Service.deleteFile(user.avatar);
-    }
+    this.checkUpdatePermission(userId, manageUserId, roles);
 
     const filePath = await s3Service.uploadFile(
       avatar,
       EFileTypes.User,
-      userId,
+      manageUserId,
     );
 
-    const updatedUser = await userRepository.updateOneById(userId, {
+    const updatedUser = await userRepository.updateOneById(manageUserId, {
       avatar: filePath,
     });
 
     return updatedUser;
   }
 
-  private checkAbilityToManage(
+  public async toPremium(
+    userId: string,
+    dto: Partial<IUser>,
     roles: string,
+  ): Promise<IUser> {
+    this.checkRole(roles);
+    const updatedUserData: Partial<IUser> = {
+      ...dto,
+      isAccountPremium: true,
+    };
+    return await userRepository.updateOneById(userId, updatedUserData);
+  }
+
+  public async blockUser(userId: string, roles: string): Promise<void> {
+    this.checkRole(roles);
+    await userRepository.blockUser(userId);
+  }
+
+  public async unblockUser(userId: string, roles: string): Promise<void> {
+    this.checkRole(roles);
+    await userRepository.unblockUser(userId);
+  }
+
+  private checkRole(roles: string): void {
+    if (roles === "Admin" || roles === "Manager") {
+      return;
+    } else {
+      throw new ApiError("You do not have permission to manage this user", 403);
+    }
+  }
+
+  private checkUpdatePermission(
     userId: string,
     manageUserId: string,
+    roles: string,
   ): void {
-    if (roles === "Admin") {
+    if (roles === "Admin" || roles === "Manager") {
       return;
-    } else if (userId !== manageUserId) {
-      throw new ApiError("You do not have permission to update this user", 403);
     }
+    if (userId === manageUserId) {
+      return;
+    }
+    throw new ApiError("You do not have permission to manage this user", 403);
   }
 }
 

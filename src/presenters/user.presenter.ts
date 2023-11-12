@@ -17,6 +17,7 @@ class UserPresenter implements IPresenter<IUser, Partial<IUser>> {
       status: data.status,
       roles: data.roles,
       isBlocked: data.isBlocked,
+      isAccountPremium: data.isAccountPremium,
       avatar: `${configs.AWS_S3_URL}/${data.avatar}`,
     };
   }

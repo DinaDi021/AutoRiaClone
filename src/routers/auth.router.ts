@@ -11,7 +11,7 @@ const router = Router();
 
 router.post(
   "/register",
-  commonMiddleware.isBodyValid(UserValidator.register),
+  commonMiddleware.isBodyValid(UserValidator.registerUser),
   userMiddleware.isEmailUniq,
   authController.register,
 );
@@ -20,6 +20,16 @@ router.post(
   commonMiddleware.isBodyValid(UserValidator.login),
   authController.login,
 );
+
+router.post(
+  "/registerManager",
+  authMiddleware.checkAccessToken,
+  userMiddleware.checkRole("Admin"),
+  commonMiddleware.isBodyValid(UserValidator.registerManager),
+  userMiddleware.isEmailUniq,
+  authController.register,
+);
+
 router.post(
   "/refresh",
   authMiddleware.checkRefreshToken,

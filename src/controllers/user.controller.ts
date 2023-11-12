@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
-import { userPresenter } from "../presenters/user.presenter";
 
+import { userPresenter } from "../presenters/user.presenter";
 import { userService } from "../services/user.services";
 import { ITokenPayload } from "../types/token.types";
 import { IUser } from "../types/users.types";
@@ -85,13 +85,70 @@ class UserController {
     next: NextFunction,
   ): Promise<Response<IUser>> {
     try {
-      const { userId } = req.params;
+      const { userId, roles } = req.res.locals.tokenPayload as ITokenPayload;
       const avatar = req.files.avatar as UploadedFile;
-      const user = await userService.uploadAvatar(avatar, userId);
+      const user = await userService.uploadAvatar(
+        req.params.userId,
+        avatar,
+        userId,
+        roles,
+      );
 
       const response = userPresenter.present(user);
 
       return res.json(response);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async toPremium(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { roles } = req.res.locals.tokenPayload as ITokenPayload;
+
+      const user = await userService.toPremium(
+        req.params.userId,
+        req.body,
+        roles,
+      );
+
+      res.status(201).json(user);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async blockUser(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { roles } = req.res.locals.tokenPayload as ITokenPayload;
+
+      await userService.blockUser(req.params.userId, roles);
+
+      res.sendStatus(204);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async unblockUser(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { roles } = req.res.locals.tokenPayload as ITokenPayload;
+
+      await userService.unblockUser(req.params.userId, roles);
+
+      res.sendStatus(204);
     } catch (e) {
       next(e);
     }

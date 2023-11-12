@@ -14,8 +14,9 @@ class CarService {
     carId: string,
     dto: Partial<ICar>,
     userId: string,
+    roles: string,
   ): Promise<ICar> {
-    await this.checkAbilityToManage(userId, carId);
+    await this.checkAbilityToManage(carId, userId, roles);
     return await carRepository.updateCar(carId, dto);
   }
 
@@ -23,15 +24,22 @@ class CarService {
     return await carRepository.createCar(dto, userId);
   }
 
-  public async deleteCar(carId: string, userId: string): Promise<void> {
-    await this.checkAbilityToManage(userId, carId);
+  public async deleteCar(
+    carId: string,
+    userId: string,
+    roles: string,
+  ): Promise<void> {
+    await this.checkAbilityToManage(carId, userId, roles);
     await carRepository.deleteCar(carId);
   }
 
   public async uploadAvatar(
-    avatar: UploadedFile,
     carId: string,
+    avatar: UploadedFile,
+    userId: string,
+    roles: string,
   ): Promise<ICar> {
+    this.checkAbilityToManage(carId, userId, roles);
     const car = await carRepository.findById(carId);
 
     if (car.avatar) {
@@ -46,19 +54,27 @@ class CarService {
 
     return updatedCar;
   }
-
-  private async checkAbilityToManage(
+  public checkAbilityToManage(
+    carId: string,
     userId: string,
-    manageCarId: string,
-  ): Promise<ICar> {
-    const car = await carRepository.getOneByParams({
-      _userId: userId,
-      _id: manageCarId,
-    });
-    if (!car) {
-      throw new ApiError("You do not have permission to update this user", 403);
+    roles: string,
+  ): void {
+    this.checkRole(roles);
+    this.checkUserPermission(carId, userId);
+  }
+
+  private checkRole(roles: string): void {
+    if (roles === "Admin" || roles === "Manager") {
+      return;
+    } else {
+      throw new ApiError("You do not have permission to manage this car", 403);
     }
-    return car;
+  }
+
+  private checkUserPermission(userId: string, carId: string): void {
+    if (userId !== carId) {
+      throw new ApiError("You do not have permission to manage this car", 403);
+    }
   }
 }
 

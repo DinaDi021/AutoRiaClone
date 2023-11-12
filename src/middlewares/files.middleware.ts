@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { UploadedFile } from "express-fileupload";
 
 import { avatarConfig } from "../configs/file.config";
 import { ApiError } from "../errors/api.error";

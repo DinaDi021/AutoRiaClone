@@ -94,6 +94,20 @@ class TokenService {
       }
     }
   }
+
+  public findUserIdInToken(token: string): string {
+    try {
+      const payload = this.checkToken(token, "access");
+      return payload.userId;
+    } catch (accessError) {
+      try {
+        const payload = this.checkToken(token, "refresh");
+        return payload.userId;
+      } catch (refreshError) {
+        return null;
+      }
+    }
+  }
 }
 
 export const tokenService = new TokenService();

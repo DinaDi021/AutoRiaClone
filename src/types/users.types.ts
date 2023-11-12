@@ -13,6 +13,7 @@ export interface IUser extends Document {
   roles: ERoles;
   isBlocked: boolean;
   avatar: string;
+  isAccountPremium: boolean;
 }
 
 export type IUserCredentials = Pick<IUser, "email" | "password">;

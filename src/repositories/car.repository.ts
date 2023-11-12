@@ -30,6 +30,10 @@ class CarRepository {
   public async deleteCar(carId: string): Promise<void> {
     await Car.deleteOne({ _id: carId });
   }
+
+  public async findOneByUserId(userId: string): Promise<ICar | null> {
+    return await Car.findOne({ _userId: userId });
+  }
 }
 
 export const carRepository = new CarRepository();
