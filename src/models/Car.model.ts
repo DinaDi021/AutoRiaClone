@@ -2,6 +2,7 @@ import { model, Schema, Types } from "mongoose";
 
 import { EBrand } from "../enums/brand.enum";
 import { ECurrency } from "../enums/currency.enum";
+import { ERegion } from "../enums/egion.enum";
 import { ICar } from "../types/cars.types";
 import { User } from "./User.model";
 
@@ -48,6 +49,8 @@ const carSchema = new Schema(
     },
     region: {
       type: String,
+      enum: ERegion,
+      required: true,
     },
     exchangeRates: {
       usd: {

@@ -13,7 +13,7 @@ export interface ICar extends Document {
   image: string[];
   _userId: Types.ObjectId | string;
   views: number;
-  region?: string;
+  region: string;
   exchangeRates: {
     usd: number;
     eur: number;
