@@ -1,20 +1,15 @@
 import joi from "joi";
 
-import { regexConstant } from "../constatnts/regex.constant";
 import { EBrand } from "../enums/brand.enum";
-import { EPrice } from "../enums/price.enum";
+import { ECurrency } from "../enums/currency.enum";
 
 export class CarValidator {
   static year = joi.number().min(1990).max(2023);
   static carModel = joi.string().min(2).max(30).trim();
   static brand = joi.valid(...Object.values(EBrand));
   static price = joi.number().min(1);
-  static currency = joi.valid(...Object.values(EPrice));
-  static description = joi
-    .string()
-    .regex(regexConstant.DESCRIPTION)
-    .min(2)
-    .max(150);
+  static currency = joi.valid(...Object.values(ECurrency));
+  static description = joi.string().min(2).max(150);
 
   static create = joi.object({
     year: this.year.required(),

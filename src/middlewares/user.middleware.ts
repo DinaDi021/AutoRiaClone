@@ -96,11 +96,40 @@ class UserMiddleware {
     };
   }
 
+  public async checkUserStatus(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const token = req.get("Authorization");
+
+      if (!token) {
+        throw new ApiError("No Token!", 401);
+      }
+
+      const userId = tokenService.findUserIdInToken(token);
+
+      const user = await userRepository.findById(userId);
+
+      if (!user) {
+        throw new ApiError("User not found", 404);
+      }
+
+      if (user.isBlocked === true) {
+        throw new ApiError("User is blocked", 403);
+      }
+
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
+
   public checkRole(role: string | string[]) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
         const token = req.get("Authorization");
-        console.log(token);
 
         if (!token) {
           throw new ApiError("No Token!", 401);

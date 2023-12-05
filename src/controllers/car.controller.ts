@@ -3,15 +3,15 @@ import { UploadedFile } from "express-fileupload";
 
 import { carPresenter } from "../presenters/car.presenter";
 import { carService } from "../services/car.services";
+import { ICar } from "../types/cars.types";
 import { ITokenPayload } from "../types/token.types";
-import { IUser } from "../types/users.types";
 
 class CarController {
   public async getAll(
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<IUser[]>> {
+  ): Promise<Response<ICar[]>> {
     try {
       const cars = await carService.getAll();
 
@@ -83,20 +83,17 @@ class CarController {
     }
   }
 
-  public async uploadAvatar(
+  public async uploadImages(
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<IUser>> {
+  ): Promise<Response<ICar>> {
     try {
       const { userId, roles } = req.res.locals.tokenPayload as ITokenPayload;
-      const avatar = req.files.avatar as UploadedFile;
-      const car = await carService.uploadAvatar(
-        req.params.carId,
-        avatar,
-        userId,
-        roles,
-      );
+      const carId = req.params.carId;
+      const image = req.files.image as UploadedFile;
+      CarController.uploadedImages.push(image);
+      const car = await carService.uploadImages(carId, image, userId, roles);
 
       const response = carPresenter.present(car);
 
@@ -105,6 +102,8 @@ class CarController {
       next(e);
     }
   }
+
+  static uploadedImages: UploadedFile[] = [];
 }
 
 export const carController = new CarController();

@@ -10,11 +10,12 @@ import { CarValidator } from "../validators/car.validator";
 
 const router = Router();
 
-router.get("/", carController.getAll);
+router.get("/", userMiddleware.checkUserStatus, carController.getAll);
 router.post(
   "/",
   authMiddleware.checkAccessToken,
   userMiddleware.checkAccountType,
+  userMiddleware.checkUserStatus,
   userMiddleware.checkRole(["Admin", "Manager", "Seller"]),
   commonMiddleware.isBodyValid(CarValidator.create),
   carController.createCar,
@@ -38,8 +39,8 @@ router.post(
   "/:carId/gallery",
   authMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("carId"),
-  fileMiddleware.isAvatarValid,
-  carController.uploadAvatar,
+  fileMiddleware.isImageValid,
+  carController.uploadImages,
 );
 router.delete(
   "/:carId",

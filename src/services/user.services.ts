@@ -77,7 +77,7 @@ class UserService {
     await userRepository.unblockUser(userId);
   }
 
-  private checkRole(roles: string): void {
+  private async checkRole(roles: string): Promise<void> {
     if (roles === "Admin" || roles === "Manager") {
       return;
     } else {

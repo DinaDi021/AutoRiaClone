@@ -9,6 +9,11 @@ class CarRepository {
     return cars;
   }
 
+  public async getAllByParams(filter: FilterQuery<ICar>): Promise<ICar[]> {
+    const cars = await Car.find(filter);
+    return cars;
+  }
+
   public async getOneByParams(params: FilterQuery<ICar>): Promise<ICar> {
     return await Car.findOne(params);
   }
@@ -27,12 +32,19 @@ class CarRepository {
     });
   }
 
-  public async deleteCar(carId: string): Promise<void> {
-    await Car.deleteOne({ _id: carId });
+  public async updateCarPrices(
+    filter: FilterQuery<ICar>,
+    update: any,
+  ): Promise<void> {
+    try {
+      await Car.updateMany(filter, update);
+    } catch (e) {
+      throw e;
+    }
   }
 
-  public async findOneByUserId(userId: string): Promise<ICar | null> {
-    return await Car.findOne({ _userId: userId });
+  public async deleteCar(carId: string): Promise<void> {
+    await Car.deleteOne({ _id: carId });
   }
 }
 

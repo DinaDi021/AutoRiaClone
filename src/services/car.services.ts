@@ -3,6 +3,7 @@ import { UploadedFile } from "express-fileupload";
 import { ApiError } from "../errors/api.error";
 import { carRepository } from "../repositories/car.repository";
 import { ICar } from "../types/cars.types";
+import { ExchangeRateData } from "../types/currency.types";
 import { EFileTypes, s3Service } from "./s3.service";
 
 class CarService {
@@ -16,7 +17,7 @@ class CarService {
     userId: string,
     roles: string,
   ): Promise<ICar> {
-    await this.checkAbilityToManage(carId, userId, roles);
+    await this.checkUpdatePermission(userId, carId, roles);
     return await carRepository.updateCar(carId, dto);
   }
 
@@ -29,52 +30,73 @@ class CarService {
     userId: string,
     roles: string,
   ): Promise<void> {
-    await this.checkAbilityToManage(carId, userId, roles);
+    await this.checkUpdatePermission(userId, carId, roles);
     await carRepository.deleteCar(carId);
   }
 
-  public async uploadAvatar(
+  public async uploadImages(
     carId: string,
-    avatar: UploadedFile,
+    image: UploadedFile,
     userId: string,
     roles: string,
   ): Promise<ICar> {
-    this.checkAbilityToManage(carId, userId, roles);
-    const car = await carRepository.findById(carId);
+    this.checkUpdatePermission(userId, carId, roles);
 
-    if (car.avatar) {
-      await s3Service.deleteFile(car.avatar);
-    }
+    const filePath = await s3Service.uploadFile(image, EFileTypes.Car, carId);
 
-    const filePath = await s3Service.uploadFile(avatar, EFileTypes.Car, carId);
-
-    const updatedCar = await carRepository.updateCar(carId, {
-      avatar: filePath,
+    const car = await carRepository.getOneByParams({
+      _id: carId,
     });
+
+    car.image = [...(car.image || []), filePath];
+
+    const updatedCar = await carRepository.updateCar(carId, car);
 
     return updatedCar;
   }
-  public checkAbilityToManage(
-    carId: string,
+
+  public async updateCarPrices(exchangeRates: ExchangeRateData): Promise<void> {
+    try {
+      const update = {
+        $set: {
+          exchangeRates,
+          lastExchangeRateUpdate: new Date(),
+        },
+      };
+
+      await carRepository.updateCarPrices({}, update);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async checkUpdatePermission(
     userId: string,
+    manageCarId: string,
     roles: string,
-  ): void {
-    this.checkRole(roles);
-    this.checkUserPermission(carId, userId);
-  }
-
-  private checkRole(roles: string): void {
+  ): Promise<ICar> {
     if (roles === "Admin" || roles === "Manager") {
-      return;
-    } else {
-      throw new ApiError("You do not have permission to manage this car", 403);
-    }
-  }
+      const car = await carRepository.getOneByParams({
+        _id: manageCarId,
+      });
 
-  private checkUserPermission(userId: string, carId: string): void {
-    if (userId !== carId) {
+      if (!car) {
+        throw new ApiError("Car not found", 404);
+      }
+
+      return car;
+    }
+
+    const car = await carRepository.getOneByParams({
+      _userId: userId,
+      _id: manageCarId,
+    });
+
+    if (!car) {
       throw new ApiError("You do not have permission to manage this car", 403);
     }
+
+    return car;
   }
 }
 

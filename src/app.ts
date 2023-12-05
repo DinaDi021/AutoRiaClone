@@ -3,6 +3,7 @@ import fileUpload from "express-fileupload";
 import * as mongoose from "mongoose";
 
 import { configs } from "./configs/configs";
+import { cronRunner } from "./crons";
 import { ApiError } from "./errors/api.error";
 import { authRouter } from "./routers/auth.router";
 import { carRouter } from "./routers/car.router";
@@ -28,5 +29,6 @@ app.use((error: ApiError, req: Request, res: Response, next: NextFunction) => {
 
 app.listen(configs.PORT, async () => {
   await mongoose.connect(configs.DB_URI);
+  cronRunner();
   console.log(`has started ${configs.PORT}`);
 });
