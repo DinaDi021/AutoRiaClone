@@ -33,7 +33,7 @@ class UserRepository {
     });
   }
 
-  public async setStatus(userId: string, status: any): Promise<void> {
+  public async setStatus(userId: string, status: string): Promise<void> {
     await User.updateOne({ _id: userId }, { $set: { status } });
   }
 

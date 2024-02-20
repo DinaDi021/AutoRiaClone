@@ -49,13 +49,15 @@ router.put(
   userController.unblockUser,
 );
 
-router.put(
+router.get(
   "/:userId/toPremium",
   authMiddleware.checkAccessToken,
-  userMiddleware.checkRole(["Admin", "Manager"]),
   commonMiddleware.isIdValid("userId"),
-  userController.toPremium,
+  userController.BuyPremiumAccount,
 );
+
+router.post("/toPremium/callback", userController.callbackToPremium);
+
 router.delete(
   "/:userId",
   authMiddleware.checkAccessToken,

@@ -1,10 +1,28 @@
 import axios from "axios";
 
 import { currencyUrl } from "../constatnts/currency.constant";
+import { carRepository } from "../repositories/car.repository";
 import { ExchangeRate, ExchangeRateData } from "../types/currency.types";
 import { carService } from "./car.services";
 
 class CurrencyService {
+  async getExchangeRates(): Promise<ExchangeRateData> {
+    try {
+      const response = await axios.get<ExchangeRate[]>(currencyUrl);
+
+      return {
+        usd: parseFloat(
+          response.data.find((rate) => rate.ccy === "USD")?.sale || "0",
+        ),
+        eur: parseFloat(
+          response.data.find((rate) => rate.ccy === "EUR")?.sale || "0",
+        ),
+        uah: 1.0,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
   async updateExchangeRates(): Promise<void> {
     try {
       const response = await axios.get<ExchangeRate[]>(currencyUrl);
@@ -22,6 +40,24 @@ class CurrencyService {
       await carService.updateCarPrices(updateObject);
     } catch (error) {
       throw error;
+    }
+  }
+
+  public async updatePriceInUAH(): Promise<void> {
+    try {
+      const cars = await carRepository.getAll();
+
+      for (const car of cars) {
+        const newPriceInUAH = await carService.calculatePriceInUAH(
+          car.price,
+          car.currency,
+          car.exchangeRates,
+        );
+        car.priceInUAH = newPriceInUAH;
+        await car.save();
+      }
+    } catch (error) {
+      throw new error();
     }
   }
 }

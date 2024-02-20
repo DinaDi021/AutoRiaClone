@@ -1,10 +1,22 @@
 import { NextFunction, Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
+import { v4 as uuidv4 } from "uuid";
 
 import { userPresenter } from "../presenters/user.presenter";
+import { liqPaymentService } from "../services/liqPay.service";
 import { userService } from "../services/user.services";
+import {
+  Action,
+  Currency,
+  ILanguage,
+  IPayload,
+} from "../types/forLiqPay.types";
 import { ITokenPayload } from "../types/token.types";
 import { IUser } from "../types/users.types";
+
+function generateOrderId(): string {
+  return uuidv4();
+}
 
 class UserController {
   public async getAll(
@@ -102,21 +114,44 @@ class UserController {
     }
   }
 
-  public async toPremium(
+  public async BuyPremiumAccount(
     req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
     try {
-      const { roles } = req.res.locals.tokenPayload as ITokenPayload;
+      const userId = req.params.userId;
+      const payload: IPayload = {
+        userId: userId,
+        action: Action.PAY,
+        amount: 500,
+        currency: Currency.UAH,
+        description: "Premium Subscription",
+        order_id: generateOrderId(),
+        language: ILanguage.UA,
+        server_url: "http://localhost:5000/users/toPremium/callback",
+      };
 
-      const user = await userService.toPremium(
-        req.params.userId,
-        req.body,
-        roles,
-      );
+      const htmlForm = liqPaymentService.getHtmlForm(payload);
 
-      res.status(201).json(user);
+      res.send(htmlForm);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async callbackToPremium(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const paymentData = req.body;
+
+      const { data, signature } = paymentData;
+      await userService.callbackToPremium(data, signature);
+
+      res.sendStatus(200);
     } catch (e) {
       next(e);
     }

@@ -10,6 +10,7 @@ dayjs.extend(utc);
 const updatePrices = async function () {
   try {
     await currencyService.updateExchangeRates();
+    await currencyService.updatePriceInUAH();
   } catch (e) {
     throw new ApiError(e.message, e.status);
   }

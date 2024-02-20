@@ -1,19 +1,22 @@
 import { Document, Types } from "mongoose";
 
 import { EBrand } from "../enums/brand.enum";
+import { ECountry } from "../enums/country.enum";
 import { ECurrency } from "../enums/currency.enum";
+import { ERegion } from "../enums/region.enum";
 
 export interface ICar extends Document {
   brand: EBrand;
   carModel: string;
   year: number;
   price: number;
+  priceInUAH: number;
   currency: ECurrency;
   description?: string;
-  image: string[];
+  avatar: string[];
   _userId: Types.ObjectId | string;
-  views: number;
-  region: string;
+  region: ERegion;
+  country: ECountry;
   exchangeRates: {
     usd: number;
     eur: number;

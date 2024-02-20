@@ -1,8 +1,10 @@
 import { UploadedFile } from "express-fileupload";
 
+import { configs } from "../configs/configs";
 import { ApiError } from "../errors/api.error";
 import { userRepository } from "../repositories/user.repository";
 import { IUser } from "../types/users.types";
+import { liqPaymentService } from "./liqPay.service";
 import { EFileTypes, s3Service } from "./s3.service";
 
 class UserService {
@@ -54,14 +56,34 @@ class UserService {
     return updatedUser;
   }
 
-  public async toPremium(
-    userId: string,
-    dto: Partial<IUser>,
-    roles: string,
-  ): Promise<IUser> {
-    this.checkRole(roles);
+  public async callbackToPremium(
+    data: string,
+    signature: string,
+  ): Promise<void> {
+    const decodedData = liqPaymentService.decodedData(data);
+    const parsedData = JSON.parse(decodedData);
+
+    const userId = parsedData.userId;
+
+    const privateKey = configs.private_key;
+    const expectedSignature = liqPaymentService.generateSignatureCallback(
+      privateKey,
+      data,
+    );
+
+    if (signature !== expectedSignature) {
+      throw new ApiError("Invalid signature", 400);
+    }
+
+    if (!userId) {
+      throw new ApiError("User ID is missing in the callback data", 400);
+      return;
+    }
+    await this.toPremium(userId);
+  }
+
+  public async toPremium(userId: string): Promise<IUser> {
     const updatedUserData: Partial<IUser> = {
-      ...dto,
       isAccountPremium: true,
     };
     return await userRepository.updateOneById(userId, updatedUserData);

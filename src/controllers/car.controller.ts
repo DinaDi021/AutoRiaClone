@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 
 import { carPresenter } from "../presenters/car.presenter";
+import { statisticRepository } from "../repositories/statistic.repository";
 import { carService } from "../services/car.services";
 import { ICar } from "../types/cars.types";
 import { ITokenPayload } from "../types/token.types";
@@ -76,7 +77,7 @@ class CarController {
   public async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const car = req.res.locals;
-
+      await statisticRepository.createOrUpdateViews(car._id);
       res.json(car);
     } catch (e) {
       next(e);
@@ -91,9 +92,9 @@ class CarController {
     try {
       const { userId, roles } = req.res.locals.tokenPayload as ITokenPayload;
       const carId = req.params.carId;
-      const image = req.files.image as UploadedFile;
-      CarController.uploadedImages.push(image);
-      const car = await carService.uploadImages(carId, image, userId, roles);
+      const avatar = req.files.avatar as UploadedFile;
+      CarController.uploadedImages.push(avatar);
+      const car = await carService.uploadImages(carId, avatar, userId, roles);
 
       const response = carPresenter.present(car);
 

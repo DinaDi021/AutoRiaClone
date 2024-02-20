@@ -49,7 +49,7 @@ class UserMiddleware {
         next();
       } else {
         if (!user.isAccountPremium) {
-          throw new ApiError("Basic account can only register one car", 403);
+          throw new ApiError("Access denied. Premium account required.", 403);
         } else {
           next();
         }

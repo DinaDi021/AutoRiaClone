@@ -22,4 +22,7 @@ export const configs = {
   AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME,
   AWS_S3_REGION: process.env.AWS_S3_REGION,
   AWS_S3_URL: process.env.AWS_S3_URL,
+
+  public_key: process.env.public_key,
+  private_key: process.env.private_key,
 };

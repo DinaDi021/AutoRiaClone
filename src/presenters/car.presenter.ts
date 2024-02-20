@@ -7,7 +7,7 @@ interface IPresenter<I, O> {
 
 class CarPresenter implements IPresenter<ICar, Partial<ICar>> {
   present(data: ICar): Partial<ICar> {
-    const images = Array.isArray(data.image) ? data.image : [data.image];
+    const avatars = Array.isArray(data.avatar) ? data.avatar : [data.avatar];
     return {
       _id: data._id,
       carModel: data.carModel,
@@ -15,7 +15,7 @@ class CarPresenter implements IPresenter<ICar, Partial<ICar>> {
       price: data.price,
       currency: data.currency,
       description: data.description,
-      image: images.map((img) => `${configs.AWS_S3_URL}/${img}`),
+      avatar: avatars.map((avatar) => `${configs.AWS_S3_URL}/${avatar}`),
       _userId: data._userId,
     };
   }

@@ -23,7 +23,8 @@ class CarRepository {
   }
 
   public async createCar(dto: ICar, userId: string): Promise<ICar> {
-    return await Car.create({ ...dto, _userId: userId });
+    const newCar = await Car.create({ ...dto, _userId: userId });
+    return newCar;
   }
 
   public async updateCar(carId: string, dto: Partial<ICar>): Promise<ICar> {
