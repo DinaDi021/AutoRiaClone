@@ -33,33 +33,6 @@ class FilesMiddleware {
     }
   }
 
-  // public async isImageValid(
-  //   req: Request,
-  //   res: Response,
-  //   next: NextFunction,
-  // ): Promise<void> {
-  //   try {
-  //     if (Array.isArray(req.files.image)) {
-  //       throw new ApiError(
-  //         "Avatar is not allowed to be an array of images",
-  //         400,
-  //       );
-  //     }
-  //     const { size, mimetype } = req.files.image;
-  //
-  //     if (size > avatarConfig.MAX_SIZE) {
-  //       throw new ApiError("File is too big", 400);
-  //     }
-  //
-  //     if (!avatarConfig.MIMETYPES.includes(mimetype)) {
-  //       throw new ApiError("File has invalid format", 400);
-  //     }
-  //
-  //     next();
-  //   } catch (e) {
-  //     next(e);
-  //   }
-  // }
 }
 
 export const fileMiddleware = new FilesMiddleware();

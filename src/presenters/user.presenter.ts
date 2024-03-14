@@ -9,8 +9,7 @@ class UserPresenter implements IPresenter<IUser, Partial<IUser>> {
   present(data: IUser): Partial<IUser> {
     return {
       _id: data._id,
-      firstName: data.firstName,
-      lastName: data.lastName,
+      userName: data.userName,
       age: data.age,
       email: data.email,
       password: data.password,

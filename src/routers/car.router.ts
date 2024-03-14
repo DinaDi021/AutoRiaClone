@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { carController } from "../controllers/car.controller";
 import { statisticController } from "../controllers/statistic.controller";
+import { userController } from "../controllers/user.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { carMiddleware } from "../middlewares/car.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
@@ -58,6 +59,14 @@ router.put(
   commonMiddleware.isIdValid("carId"),
   commonMiddleware.isBodyValid(CarValidator.update),
   commonMiddleware.checkDescriptionForBadWords,
+  carController.updateCar,
+);
+
+router.put(
+  "/:carId/",
+  authMiddleware.checkAccessToken,
+  userMiddleware.checkRole(["Admin", "Manager"]),
+  commonMiddleware.isBodyValid(CarValidator.update),
   carController.updateCar,
 );
 

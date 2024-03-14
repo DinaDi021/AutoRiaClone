@@ -14,6 +14,8 @@ export class CarValidator {
   static region = joi.valid(...Object.values(ERegion));
   static country = joi.valid(...Object.values(ECountry));
   static description = joi.string().min(2).max(150);
+  static announcementActive = joi.boolean();
+  static editCount = joi.number().min(0).max(3);
 
   static create = joi.object({
     year: this.year.required(),
@@ -33,4 +35,13 @@ export class CarValidator {
     country: this.country,
     description: this.description,
   });
+
+  static updateByManager = joi.object({
+    price: this.price,
+    currency: this.currency,
+    region: this.region,
+    country: this.country,
+    description: this.description,
+    announcementActive: this.announcementActive
+  })
 }

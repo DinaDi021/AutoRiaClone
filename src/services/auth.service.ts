@@ -36,7 +36,7 @@ class AuthService {
         _userId: user._id,
       });
       await emailService.sendMail(dto.email, EEmailAction.REGISTER, {
-        name: dto.firstName,
+        name: dto.userName,
         actionToken,
       });
     } catch (e) {
@@ -153,7 +153,7 @@ class AuthService {
         _userId: user._id,
       });
       await emailService.sendMail(user.email, EEmailAction.REGISTER, {
-        name: user.firstName,
+        name: user.userName,
         actionToken,
       });
     } catch (e) {

@@ -48,15 +48,19 @@ class CommonMiddleware {
     next: NextFunction,
   ) {
     try {
-      const { description } = req.body;
+      if (req.body.description) {
+        const { description } = req.body;
 
-      const filter = new Filter({ replaceRegex: /[A-Za-z0-9가-힣_]/g });
-      filter.addWords(...badWords);
-      const cleanedDescription = filter.clean(description);
+        const filter = new Filter({ replaceRegex: /[A-Za-z0-9가-힣_]/g });
+        filter.addWords(...badWords);
+        const cleanedDescription = filter.clean(description);
 
-      if (cleanedDescription !== description) {
-        console.log("Found bad words in description");
-        req.body.isValidDescription = false;
+        if (cleanedDescription !== description) {
+          console.log("Found bad words in description");
+          req.body.isValidDescription = false;
+        } else {
+          req.body.isValidDescription = true;
+        }
       } else {
         req.body.isValidDescription = true;
       }

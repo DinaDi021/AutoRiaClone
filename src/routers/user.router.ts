@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { carController } from "../controllers/car.controller";
 
 import { userController } from "../controllers/user.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";

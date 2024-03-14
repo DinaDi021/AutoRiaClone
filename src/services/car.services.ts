@@ -27,10 +27,20 @@ class CarService {
     await this.checkUpdatePermission(userId, carId, roles);
     const car = await Car.findById(carId);
     await carService.checkAnnouncementActive(car);
+    if ("price" in dto) {
+      dto.priceInUAH = await this.calculatePriceInUAH(
+        dto.price,
+        dto.currency,
+        car.exchangeRates,
+      );
+      car.priceInUAH = dto.priceInUAH;
+    }
+
     if (!dto.announcementActive) {
       dto.editCount = (car.editCount || 0) + 1;
     }
-    return await Car.findByIdAndUpdate(carId, dto, { new: true });
+
+    return await carRepository.updateCar(carId, dto);
   }
 
   public async createCar(dto: ICar, userId: string): Promise<ICar> {
