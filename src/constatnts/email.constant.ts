@@ -13,4 +13,12 @@ export const templates = {
     templateName: "not-active-user",
     subject: "We Miss You",
   },
+  [EEmailAction.ANNOUNCEMENT_BAD_WORDS]: {
+    templateName: "announcement-bad-words",
+    subject: "announcement have a problem with description, please check",
+  },
+  [EEmailAction.CHOOSE_OTHER_BRAND]: {
+    templateName: "choose-other-brand",
+    subject: "we will contact you to add a new brand",
+  },
 };

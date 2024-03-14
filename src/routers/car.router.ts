@@ -19,6 +19,8 @@ router.post(
   userMiddleware.checkAccountType,
   userMiddleware.checkRole(["Admin", "Manager", "Seller"]),
   commonMiddleware.isBodyValid(CarValidator.create),
+  commonMiddleware.checkDescriptionForBadWords,
+  commonMiddleware.isChooseOtherBrand,
   carController.createCar,
 );
 
@@ -55,6 +57,7 @@ router.put(
   userMiddleware.checkAccountType,
   commonMiddleware.isIdValid("carId"),
   commonMiddleware.isBodyValid(CarValidator.update),
+  commonMiddleware.checkDescriptionForBadWords,
   carController.updateCar,
 );
 

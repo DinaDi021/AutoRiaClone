@@ -58,6 +58,15 @@ const carSchema = new Schema(
       required: true,
       unique: true,
     },
+    announcementActive: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    editCount: {
+      type: Number,
+      default: 0,
+    },
     exchangeRates: {
       usd: {
         type: Number,

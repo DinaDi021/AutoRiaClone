@@ -17,6 +17,8 @@ export interface ICar extends Document {
   _userId: Types.ObjectId | string;
   region: ERegion;
   country: ECountry;
+  announcementActive: boolean;
+  editCount: number;
   exchangeRates: {
     usd: number;
     eur: number;
@@ -24,5 +26,3 @@ export interface ICar extends Document {
   };
   lastExchangeRateUpdate: Date;
 }
-
-export type IExchangeRates = Pick<ICar, "exchangeRates">;

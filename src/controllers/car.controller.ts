@@ -4,6 +4,7 @@ import { UploadedFile } from "express-fileupload";
 import { carPresenter } from "../presenters/car.presenter";
 import { statisticRepository } from "../repositories/statistic.repository";
 import { carService } from "../services/car.services";
+import { userService } from "../services/user.services";
 import { ICar } from "../types/cars.types";
 import { ITokenPayload } from "../types/token.types";
 
@@ -30,7 +31,15 @@ class CarController {
     try {
       const { userId } = req.res.locals.tokenPayload as ITokenPayload;
 
-      const car = await carService.createCar(req.body, userId);
+      const carData = req.body;
+
+      if (carData.isValidDescription) {
+        carData.announcementActive = true;
+      } else {
+        carData.announcementActive = false;
+      }
+
+      const car = await carService.createCar(carData, userId);
 
       res.status(201).json(car);
     } catch (e) {
@@ -61,9 +70,17 @@ class CarController {
     try {
       const { userId, roles } = req.res.locals.tokenPayload as ITokenPayload;
 
+      const carData = req.body;
+
+      if (carData.isValidDescription) {
+        carData.announcementActive = true;
+      } else {
+        carData.announcementActive = false;
+      }
+
       const car = await carService.updateCar(
         req.params.carId,
-        req.body,
+        carData,
         userId,
         roles,
       );

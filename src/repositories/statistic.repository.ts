@@ -2,8 +2,8 @@ import moment from "moment";
 import { ObjectId } from "mongodb";
 
 import { Car } from "../models/Car.model";
-import { PriceStatistic } from "../models/PriceStatistic.models";
-import { ViewsStatistic } from "../models/ViewsStatistic.models";
+import { PriceStatistic } from "../models/PriceStatistic.model";
+import { ViewsStatistic } from "../models/ViewsStatistic.model";
 import { IPriceStatistic, IViewsStatistic } from "../types/statistic.types";
 
 class StatisticRepository {

@@ -2,10 +2,10 @@ import { Document } from "mongoose";
 
 import { ERoles } from "../enums/roles.enum";
 import { EUserStatus } from "../enums/user-status.enum";
+import { EUserType } from "../enums/user-type.enum";
 
 export interface IUser extends Document {
-  firstName: string;
-  lastName: string;
+  userName: EUserType;
   age: number;
   email: string;
   password: string;

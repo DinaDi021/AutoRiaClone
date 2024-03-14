@@ -29,4 +29,5 @@ export enum EBrand {
   Rolls_Royce = "Rolls-Royce",
   Bentley = "Bentley",
   Alfa_Romeo = "Alfa Romeo",
+  Other = "Other",
 }

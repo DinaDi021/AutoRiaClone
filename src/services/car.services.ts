@@ -1,12 +1,16 @@
 import { UploadedFile } from "express-fileupload";
 
 import { ECurrency } from "../enums/currency.enum";
+import { EEmailAction } from "../enums/email.action.enum";
 import { ApiError } from "../errors/api.error";
+import { Car } from "../models/Car.model";
 import { carRepository } from "../repositories/car.repository";
 import { statisticRepository } from "../repositories/statistic.repository";
 import { ICar } from "../types/cars.types";
 import { ExchangeRateData } from "../types/currency.types";
+import { emailService } from "./email.service";
 import { EFileTypes, s3Service } from "./s3.service";
+import { userService } from "./user.services";
 import { currencyService } from "./сurrencyService";
 
 class CarService {
@@ -21,7 +25,12 @@ class CarService {
     roles: string,
   ): Promise<ICar> {
     await this.checkUpdatePermission(userId, carId, roles);
-    return await carRepository.updateCar(carId, dto);
+    const car = await Car.findById(carId);
+    await carService.checkAnnouncementActive(car);
+    if (!dto.announcementActive) {
+      dto.editCount = (car.editCount || 0) + 1;
+    }
+    return await Car.findByIdAndUpdate(carId, dto, { new: true });
   }
 
   public async createCar(dto: ICar, userId: string): Promise<ICar> {
@@ -106,6 +115,26 @@ class CarService {
       await carRepository.updateCarPrices({}, update);
     } catch (e) {
       throw e;
+    }
+  }
+
+  public async checkAnnouncementActive(dto: ICar): Promise<void> {
+    const { announcementActive, editCount } = dto;
+
+    const managers = await userService.getManagers();
+
+    if (!announcementActive) {
+      if (editCount && editCount >= 3) {
+        for (const manager of managers) {
+          await emailService.sendMail(
+            manager.email,
+            EEmailAction.ANNOUNCEMENT_BAD_WORDS,
+            { _id: dto._id },
+          );
+        }
+
+        throw new Error("You can't change your Announcement more 3 times");
+      }
     }
   }
 

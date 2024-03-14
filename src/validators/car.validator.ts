@@ -1,11 +1,9 @@
-import Filter from "bad-words";
 import joi from "joi";
 
 import { EBrand } from "../enums/brand.enum";
 import { ECountry } from "../enums/country.enum";
 import { ECurrency } from "../enums/currency.enum";
 import { ERegion } from "../enums/region.enum";
-import { badWords } from "./badWords";
 
 export class CarValidator {
   static year = joi.number().min(1990).max(2023);
@@ -25,15 +23,7 @@ export class CarValidator {
     currency: this.currency.required(),
     region: this.region.required(),
     country: this.country.required(),
-    description: this.description.required().custom((value, helpers) => {
-      const filter = new Filter({ replaceRegex: /[A-Za-z0-9가-힣_]/g });
-      filter.addWords(...badWords);
-      const cleanedDescription = filter.clean(value);
-      if (cleanedDescription !== value) {
-        return helpers.error("any.invalid");
-      }
-      return value;
-    }),
+    description: this.description.required(),
   });
 
   static update = joi.object({

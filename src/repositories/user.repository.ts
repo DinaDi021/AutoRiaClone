@@ -16,6 +16,13 @@ class UserRepository {
     return await User.findOne(params, selection);
   }
 
+  public async getByParams(
+    params: FilterQuery<IUser>,
+    selection?: string[],
+  ): Promise<IUser[]> {
+    return await User.find(params, selection);
+  }
+
   public async findById(id: string): Promise<IUser> {
     return await User.findById(id);
   }

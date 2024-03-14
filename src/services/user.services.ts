@@ -1,9 +1,11 @@
 import { UploadedFile } from "express-fileupload";
 
 import { configs } from "../configs/configs";
+import { EEmailAction } from "../enums/email.action.enum";
 import { ApiError } from "../errors/api.error";
 import { userRepository } from "../repositories/user.repository";
 import { IUser } from "../types/users.types";
+import { emailService } from "./email.service";
 import { liqPaymentService } from "./liqPay.service";
 import { EFileTypes, s3Service } from "./s3.service";
 
@@ -97,6 +99,31 @@ class UserService {
   public async unblockUser(userId: string, roles: string): Promise<void> {
     this.checkRole(roles);
     await userRepository.unblockUser(userId);
+  }
+
+  public async getManagers(): Promise<IUser[]> {
+    const managers = await userRepository.getByParams({
+      roles: "Manager",
+    });
+
+    if (!managers) {
+      throw new ApiError("Manager not found", 404);
+      return;
+    }
+
+    return managers;
+  }
+
+  public async sendMessageToManagers(email: string): Promise<void> {
+    console.log(email);
+    const managers = await this.getManagers();
+    for (const manager of managers) {
+      await emailService.sendMail(
+        manager.email,
+        EEmailAction.CHOOSE_OTHER_BRAND,
+        { email },
+      );
+    }
   }
 
   private async checkRole(roles: string): Promise<void> {

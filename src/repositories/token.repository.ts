@@ -1,6 +1,6 @@
 import { FilterQuery } from "mongoose";
 
-import { Token } from "../models/Token.models";
+import { Token } from "../models/Token.model";
 import { IToken } from "../types/token.types";
 
 export class TokenRepository {

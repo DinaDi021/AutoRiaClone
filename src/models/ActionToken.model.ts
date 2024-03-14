@@ -24,4 +24,4 @@ const tokensSchema = new Schema(
   { timestamps: true, versionKey: false },
 );
 
-export const ActionToken = model<IActionToken>("action-token", tokensSchema);
+export const ActionTokenModel = model<IActionToken>("action-token", tokensSchema);

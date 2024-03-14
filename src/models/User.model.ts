@@ -2,14 +2,16 @@ import { model, Schema } from "mongoose";
 
 import { ERoles } from "../enums/roles.enum";
 import { EUserStatus } from "../enums/user-status.enum";
+import { EUserType } from "../enums/user-type.enum";
 import { IUser } from "../types/users.types";
 
 const userSchema = new Schema(
   {
-    firstName: {
+    userType: {
       type: String,
+      enum: EUserType,
     },
-    lastName: {
+    userName: {
       type: String,
     },
     age: {

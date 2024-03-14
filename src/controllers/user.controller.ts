@@ -188,6 +188,8 @@ class UserController {
       next(e);
     }
   }
+
+
 }
 
 export const userController = new UserController();

@@ -2,23 +2,23 @@ import joi from "joi";
 
 import { regexConstant } from "../constatnts/regex.constant";
 import { ERoles } from "../enums/roles.enum";
+import { EUserType } from "../enums/user-type.enum";
 
 export class UserValidator {
-  static firstName = joi.string().min(2).max(50).trim();
-  static lastName = joi.string().min(2).max(50).trim();
+  static userType = joi.valid(...Object.values(EUserType));
+  static userName = joi.string().min(2).max(50).trim();
   static age = joi.number().min(18).max(100);
   static email = joi.string().regex(regexConstant.EMAIL).trim();
   static password = joi.string().regex(regexConstant.PASSWORD).trim();
 
   static update = joi.object({
-    firstName: this.firstName,
-    lastName: this.lastName,
+    name: this.name,
     age: this.age,
   });
 
   static registerUser = joi.object({
-    firstName: this.firstName.required(),
-    lastName: this.lastName.required(),
+    userType: joi.valid(EUserType).required(),
+    userName: this.userName.required(),
     age: this.age.required(),
     email: this.email.required(),
     password: this.password.required(),
@@ -26,8 +26,9 @@ export class UserValidator {
   });
 
   static registerManager = joi.object({
-    firstName: this.firstName.required(),
-    lastName: this.lastName.required(),
+    userType: joi.valid(EUserType).required(),
+    userName: this.userName.required(),
+    age: this.age.required(),
     email: this.email.required(),
     password: this.password.required(),
     roles: joi.valid(ERoles.Manager).required(),
