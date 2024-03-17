@@ -10,6 +10,7 @@ const userSchema = new Schema(
     userType: {
       type: String,
       enum: EUserType,
+      required: true,
     },
     userName: {
       type: String,

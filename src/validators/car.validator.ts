@@ -42,6 +42,7 @@ export class CarValidator {
     region: this.region,
     country: this.country,
     description: this.description,
-    announcementActive: this.announcementActive
-  })
+    announcementActive: this.announcementActive,
+    editCount: this.editCount,
+  });
 }

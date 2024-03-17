@@ -5,7 +5,8 @@ import { EUserStatus } from "../enums/user-status.enum";
 import { EUserType } from "../enums/user-type.enum";
 
 export interface IUser extends Document {
-  userName: EUserType;
+  userType: EUserType;
+  userName: string;
   age: number;
   email: string;
   password: string;
@@ -14,6 +15,7 @@ export interface IUser extends Document {
   isBlocked: boolean;
   avatar: string;
   isAccountPremium: boolean;
+  socketId: string;
 }
 
 export type IUserCredentials = Pick<IUser, "email" | "password">;

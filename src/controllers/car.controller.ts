@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
+import * as path from "path";
 
 import { carPresenter } from "../presenters/car.presenter";
 import { statisticRepository } from "../repositories/statistic.repository";
 import { carService } from "../services/car.services";
-import { userService } from "../services/user.services";
 import { ICar } from "../types/cars.types";
 import { ITokenPayload } from "../types/token.types";
 
@@ -99,6 +99,10 @@ class CarController {
     } catch (e) {
       next(e);
     }
+  }
+
+  public async openChat(req: Request, res: Response): Promise<void> {
+    res.sendFile(path.join(__dirname, "../index.html"));
   }
 
   public async uploadImages(

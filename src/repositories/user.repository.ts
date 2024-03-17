@@ -9,6 +9,11 @@ class UserRepository {
     return users;
   }
 
+  public async getUserById(userId: string): Promise<IUser> {
+    const users = await User.findById(userId);
+    return users;
+  }
+
   public async getOneByParams(
     params: FilterQuery<IUser>,
     selection?: string[],

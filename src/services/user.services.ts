@@ -14,6 +14,10 @@ class UserService {
     return await userRepository.getAll();
   }
 
+  public async getUserById(userId: string): Promise<IUser> {
+    return await userRepository.getUserById(userId);
+  }
+
   public async updateUser(
     manageUserId: string,
     dto: Partial<IUser>,

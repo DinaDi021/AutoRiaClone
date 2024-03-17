@@ -32,7 +32,9 @@ const http = __importStar(require("http"));
 const mongoose = __importStar(require("mongoose"));
 const socket_io_1 = require("socket.io");
 const configs_1 = require("./configs/configs");
+const car_controller_1 = require("./controllers/car.controller");
 const crons_1 = require("./crons");
+const auth_middleware_1 = require("./middlewares/auth.middleware");
 const auth_router_1 = require("./routers/auth.router");
 const car_router_1 = require("./routers/car.router");
 const user_router_1 = require("./routers/user.router");
@@ -42,6 +44,7 @@ const io = new socket_io_1.Server(server, { cors: { origin: "*" } });
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, express_fileupload_1.default)());
+app.get("/chat", auth_middleware_1.authMiddleware.checkAccessToken, car_controller_1.carController.openChat);
 app.use("/users", user_router_1.userRouter);
 app.use("/cars", car_router_1.carRouter);
 app.use("/auth", auth_router_1.authRouter);
@@ -50,6 +53,22 @@ app.use((error, req, res, next) => {
     res.status(status).json({
         message: error.message,
         status: error.status,
+    });
+});
+const connections = [];
+io.sockets.on("connection", function (socket) {
+    console.log("+");
+    connections.push(socket);
+    socket.on("disconnect", function () {
+        connections.splice(connections.indexOf(socket), 1);
+        console.log("-");
+    });
+    socket.on("send mess", function (data) {
+        io.sockets.emit("add mess", {
+            mess: data.mess,
+            name: data.name,
+            className: data.className,
+        });
     });
 });
 server.listen(configs_1.configs.PORT, async () => {

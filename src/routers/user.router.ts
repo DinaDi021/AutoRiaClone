@@ -15,7 +15,12 @@ router.get(
   userController.getAll,
 );
 
-router.get("/me", authMiddleware.checkAccessToken, userController.getMe);
+router.get(
+  "/me",
+  authMiddleware.checkAccessToken,
+  userMiddleware.checkUserStatus,
+  userController.getMe,
+);
 
 router.get(
   "/:userId",

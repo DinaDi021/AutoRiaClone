@@ -6,18 +6,18 @@ import { EUserType } from "../enums/user-type.enum";
 
 export class UserValidator {
   static userType = joi.valid(...Object.values(EUserType));
-  static userName = joi.string().min(2).max(50).trim();
+  static userName = joi.string().min(2).max(50);
   static age = joi.number().min(18).max(100);
   static email = joi.string().regex(regexConstant.EMAIL).trim();
   static password = joi.string().regex(regexConstant.PASSWORD).trim();
 
   static update = joi.object({
-    name: this.name,
+    userName: this.userName,
     age: this.age,
   });
 
   static registerUser = joi.object({
-    userType: joi.valid(EUserType).required(),
+    userType: this.userType.required(),
     userName: this.userName.required(),
     age: this.age.required(),
     email: this.email.required(),
@@ -26,7 +26,7 @@ export class UserValidator {
   });
 
   static registerManager = joi.object({
-    userType: joi.valid(EUserType).required(),
+    userType: this.userType.required(),
     userName: this.userName.required(),
     age: this.age.required(),
     email: this.email.required(),
