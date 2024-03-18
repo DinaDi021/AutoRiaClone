@@ -1,0 +1,1189 @@
+{
+	"info": {
+		"_postman_id": "2ab8dcc5-72da-4915-a7a9-5f1419f3f91a",
+		"name": "Auto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28728026"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userType\": \"personal\",\n  \"userName\": \"Nadina Doe\",\n  \"age\": 25,\n  \"email\": \"joeedhn.doe@example.com\",\n  \"password\": \"your_secure_password123\",\n    \"roles\": \"Seller\"\n  }\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/register",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registerManager",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userType\": \"personal\",\n  \"userName\": \"Nadi Doe\",\n  \"age\": 25,\n  \"email\": \"jodhn.doe@example.com\",\n  \"password\": \"your_secure_password123\",\n  \"roles\": \"Manager\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/registerManager",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"registerManager"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activate",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/activate?actionToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTIwMzdlNDdhMmYxNjZjOGZmMDQ1NjAiLCJuYW1lIjoiVGFtYXJhIiwiaWF0IjoxNjk2NjEwMjc2LCJleHAiOjE2OTY2OTY2NzZ9.7m-inT-lOU43s6kofDLC_Z8gl7NE6RzfUHfgljSy3xY",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"activate"
+							],
+							"query": [
+								{
+									"key": "actionToken",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTIwMzdlNDdhMmYxNjZjOGZmMDQ1NjAiLCJuYW1lIjoiVGFtYXJhIiwiaWF0IjoxNjk2NjEwMjc2LCJleHAiOjE2OTY2OTY2NzZ9.7m-inT-lOU43s6kofDLC_Z8gl7NE6RzfUHfgljSy3xY"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activate Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newPassword\": \"1234fdfgDd_\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/forgot/forgotToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTIwMzdlNDdhMmYxNjZjOGZmMDQ1NjAiLCJuYW1lIjoiVGFtYXJhIiwiaWF0IjoxNjk2NjEwMjc2LCJleHAiOjE2OTY2OTY2NzZ9.7m-inT-lOU43s6kofDLC_Z8gl7NE6RzfUHfgljSy3xY?forgotToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTIwMzdlNDdhMmYxNjZjOGZmMDQ1NjAiLCJuYW1lIjoiVGFtYXJhIiwiaWF0IjoxNjk2NjEwMjc2LCJleHAiOjE2OTY2OTY2NzZ9.7m-inT-lOU43s6kofDLC_Z8gl7NE6RzfUHfgljSy3xY",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"forgot",
+								"forgotToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTIwMzdlNDdhMmYxNjZjOGZmMDQ1NjAiLCJuYW1lIjoiVGFtYXJhIiwiaWF0IjoxNjk2NjEwMjc2LCJleHAiOjE2OTY2OTY2NzZ9.7m-inT-lOU43s6kofDLC_Z8gl7NE6RzfUHfgljSy3xY"
+							],
+							"query": [
+								{
+									"key": "forgotToken",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTIwMzdlNDdhMmYxNjZjOGZmMDQ1NjAiLCJuYW1lIjoiVGFtYXJhIiwiaWF0IjoxNjk2NjEwMjc2LCJleHAiOjE2OTY2OTY2NzZ9.7m-inT-lOU43s6kofDLC_Z8gl7NE6RzfUHfgljSy3xY"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"accessToken\", body.accessToken);",
+									"pm.environment.set(\"refreshToken\", body.refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@gmail.com\",\n  \"password\": \"admin1ADMIN!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/login",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"accessToken\", body.accessToken);",
+									"pm.environment.set(\"refreshToken\", body.refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"email\": \"joeedhn.doe@example.com\",\n  \"password\": \"your_secure_password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/login",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login seller for test pay",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"accessToken\", body.accessToken);",
+									"pm.environment.set(\"refreshToken\", body.refreshToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"william.y@example.com\",\n    \"password\": \"william_pass_777\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/login",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"accessToken\", body.accessToken);",
+									"pm.environment.set(\"refreshToken\", body.refreshToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"oldPassword\": \"secure_pass_131\",\n    \"newPassword\": \"secure_pass_135\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/change",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"change"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"accessToken\", body.accessToken);",
+									"pm.environment.set(\"refreshToken\", body.refreshToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{refreshToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/refresh",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"accessToken\", '');",
+									"pm.environment.set(\"refreshToken\", '');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/logout",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout-all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"accessToken\", '');",
+									"pm.environment.set(\"refreshToken\", '');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/auth/logout-all",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"auth",
+								"logout-all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cars",
+			"item": [
+				{
+					"name": "cars",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_HOST}}/cars",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "car chat",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_HOST}}/chat",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"chat"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cars price statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_HOST}}/cars/65511c14a4cbdb7f569c77bf/priceStatistic",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"cars",
+								"65511c14a4cbdb7f569c77bf",
+								"priceStatistic"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cars views statistic",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "period",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{API_HOST}}/cars/65511c14a4cbdb7f569c77bf/views",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"cars",
+								"65511c14a4cbdb7f569c77bf",
+								"views"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "daily",
+									"disabled": true
+								},
+								{
+									"key": "period",
+									"value": "weekly",
+									"disabled": true
+								},
+								{
+									"key": "period",
+									"value": "monthly",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cars",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"brand\": \"Other\",\n  \"carModel\": \"no name\",\n  \"year\": 2020,\n  \"price\": 4100,\n  \"currency\": \"EUR\",\n  \"description\": \"5hit\",\n  \"region\": \"Lviv\",\n  \"country\": \"Ukraine\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/cars",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "car by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"carId\", body._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_HOST}}/cars/65511c14a4cbdb7f569c77bf",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"cars",
+								"65511c14a4cbdb7f569c77bf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "car by ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"5hit\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/cars/65f03d1e60ed5330c9a4b832",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"cars",
+								"65f03d1e60ed5330c9a4b832"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "car by ID by Manager",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"5hit\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/cars/65f03d1e60ed5330c9a4b832",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"cars",
+								"65f03d1e60ed5330c9a4b832"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "car avatar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/D:/Image/Diana/wallpapers/25534.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{API_HOST}}/cars/65528c3744de63fe430f4c48/gallery",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"cars",
+								"65528c3744de63fe430f4c48",
+								"gallery"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "car by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_HOST}}/cars/65f03c16faac1ba59cbef90e",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"cars",
+								"65f03c16faac1ba59cbef90e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_HOST}}/users",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_HOST}}/users/me",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"userId\", body._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{API_HOST}}/users/65ce752427be31a1e6b23845",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"users",
+								"65ce752427be31a1e6b23845"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"userId\", body._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"age\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/users/654a74b407412775e496de59",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"users",
+								"654a74b407412775e496de59"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user block",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"userId\", body._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/users/654a74b407412775e496de59/block",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"users",
+								"654a74b407412775e496de59",
+								"block"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user unblock",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"userId\", body._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{API_HOST}}/users/654a74b407412775e496de59/unblock",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"users",
+								"654a74b407412775e496de59",
+								"unblock"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user avatar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/D:/Image/Diana/wallpapers/1251198.jpg"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{API_HOST}}/users/654a85062c355ee084ed2725/avatar",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"users",
+								"654a85062c355ee084ed2725",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_HOST}}/users/65bbb6a8d37ad3011dc591f6",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"users",
+								"65bbb6a8d37ad3011dc591f6"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "pay",
+			"item": [
+				{
+					"name": "premium pay button",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/users/65d242e83979a59067e57d81/toPremium",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"users",
+								"65d242e83979a59067e57d81",
+								"toPremium"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "premium pay callback",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": \"eyJ1c2VySWQiOiI2NWQyNDJlODM5NzlhNTkwNjdlNTdkODEiLCJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOjUwMCwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6IlByZW1pdW0gU3Vic2NyaXB0aW9uIiwib3JkZXJfaWQiOiI5MTM2Y2ZiMi1kMTRkLTRjY2QtODViZC02ZDQ4NTg2YjhkNDQiLCJsYW5ndWFnZSI6InVrIiwic2VydmVyX3VybCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMC91c2Vycy90b1ByZW1pdW0vY2FsbGJhY2siLCJ2ZXJzaW9uIjoiMyIsInB1YmxpY19rZXkiOiJzYW5kYm94X2k4Nzg1MjIwMTI2NSJ9\",\n    \"signature\": \"FHzaS1Y+rwaaPNGfYrFDLe903pk=\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_HOST}}/users/toPremium/callback",
+							"host": [
+								"{{API_HOST}}"
+							],
+							"path": [
+								"users",
+								"toPremium",
+								"callback"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
